@@ -59,7 +59,7 @@ The aim of this project is to build a heart rate monitor (HRM) device. There are
 \chapter{Principle of Operation}
 \label{chap:principle-of-operation}
 
-There are several ways to measure the heart rate. For this project, a technique is required which uses small and cheap hardware and can be used mobile. Also the performance requirements should be low, to allow an implementation with small energy-saving micro controllers. This chapter describes the method used for HRM to get the heart rate data.
+There are several ways to measure the heart rate. For this project, a technique is required which uses small and cheap hardware and can be used mobile. Also the performance requirements should be low, to allow an implementation with small energy-saving micro controllers. This chapter describes the method used for HRM to get the heart rate.
 
 \section{Heart Rate}
 A method to measure the heart rate is the photoplethysmogram (PPG) technique. This method measures the change of the blood volume through the absorption or reflection of light. A light emitting diode (LED) shines through a thin amount of tissue (e.g. fingertip, earlobe). The wavelength of the light should be in near infra-red area. On the other side a photo-diode registers the intensity of light that traversed the tissue. Since blood changes its volume with each heart beat, more or less light of the LED gets absorbed by it. If the heart pushes blood through the vessels, more blood flows between the LED and photo-diode. As a result the registered intensity of light changes continuously with the pulse. By measuring the time between two intensity peaks the current pulse can be estimated. The setting for the pulse rate monitor is displayed in figure \ref{fig:pulse-rate-monitor-setting}.
@@ -83,7 +83,7 @@ An alternative way to measure the heart rate with the same technique is to detec
 \end{figure}
 
 \section{Oxygen Saturation}
-The oxygen saturation of the blood can be measured by using 2 light emitting diodes. One LED emits light with a wavelength of 660nm (red light), the other emits light with a wavelength of 940nm (infrared light). The absorption of light by blood changes corresponding to its oxygen saturation. Oxygenated blood absorbs more infra-red light and less red light. With de-oxygenated blood it is the other way around \cite{bib:pulse-oximetry}. The LEDs blink alternating and a photo-diode is used to measure the light intensity after the light traversed the tissue. These measurements in combination with the Lambert-Beer-Law are used to calculate the oxygen saturation.
+The oxygen saturation of the blood can be measured by using 2 light emitting diodes. One LED emits light with a wavelength of 660nm (red light), the other emits light with a wavelength of 940nm (infra-red light). The absorption of light by blood changes corresponding to its oxygen saturation. Oxygenated blood absorbs more infra-red light and less red light. With de-oxygenated blood it is the other way around \cite{bib:pulse-oximetry}. The LEDs blink alternating and a photo-diode is used to measure the light intensity after the light traversed the tissue. These measurements in combination with the Lambert-Beer-Law are used to calculate the oxygen saturation.
 
 \chapter{Environment}
 \label{chap:environment}
@@ -98,7 +98,7 @@ This chapter describes the hardware and the software used and implemented for th
 
 \section{Hardware}
 \subsection{Light Intensity Sensor}
-To measure light, the 16bit TSL2561 Luminosity Sensor breakout board from Adafruit is used. It provides the TSL2561 Light-To-Digital Converter which is able to sense full spectrum and IR light with a very high sensitivity (see graphic below). The sensor contains of a broadband photodiode (visible and infrared) and a infrared photodiode. Two ADCs convert the analog data to digital data, that can be read via the I$^{2}$C bus. The light sensor can be configured with different gain, which changes the sensitivity to light. This is needed if the sensor is used in areas with bright or low environment light. A second option to configure is the integration time (13ms, 101ms, 402ms). This configures the resolution of the device, so that the sensor has more time to take samples. With a integration time of 402ms, the sensor has the complete 16bit resolution. The output of the sensor can be used to calculate the measured SI-Unit lux, which indicates the illuminance \cite{bib:tsl-sensor}. Figure \ref{fig:tsl-2561-spectrum} shows the light spectrum of the two photodiodes on the board.
+To measure light, the 16bit TSL2561 Luminosity Sensor breakout board from Adafruit is used. It provides the TSL2561 Light-To-Digital Converter which is able to sense full spectrum and IR light with a very high sensitivity (see figure \ref{fig:tsl-2561-spectrum}). The sensor contains a broadband photo-diode (visible and infra-red) and a infrared photo-diode. Two ADCs convert the analog data to digital data, that can be read via the I$^{2}$C bus. The light sensor can be configured with different gain, which changes its sensitivity to light. This is required if the sensor is used in areas with bright or low environment light. A second option to configure is the integration time (13ms, 101ms, 402ms). This configures the resolution of the device, so that the sensor has more time to take samples. With a integration time of 402ms, the sensor has the complete 16bit resolution. The output of the sensor can be used to calculate the measured SI-Unit lux, which indicates the illuminance \cite{bib:tsl-sensor}. Figure \ref{fig:tsl-2561-spectrum} shows the light spectrum of the two photodiodes on the board.
 
 \begin{figure}[H]
 	\centering
@@ -108,10 +108,10 @@ To measure light, the 16bit TSL2561 Luminosity Sensor breakout board from Adafru
 \end{figure}
 
 \subsection{Microcontroller}
-The data of the sensor is further computed by an Arduino \cite{bib:arduino-board}. The Arduino receives the data of the sensor via the I$^{2}$C bus system. Different Arduinos can be used. The only requirement is, that the Arduino has an I$^{2}$C and UART (for Bluetooth/serial) interface to communicate with the light sensor and the PC/Smartphone.
+The data of the sensor is further computed by an Arduino \cite{bib:arduino-board}. The Arduino receives the data from the light sensor via the I$^{2}$C bus system. Different Arduinos can be used. The only requirements to the Microcontroller are I$^{2}$C and UART (for Bluetooth/serial) interfaces to communicate with the light sensor and the PC/Smartphone.
 
 \subsection{Bluetooth Module}
-The Bluefruit EZ-Link is a serial link bluetooth module. That means, the Arduino can communicate via UART with the bluetooth module, which handles the wireless transmission to the computer. On the computer side, the module (if it was paired successfully) is recognized as an serial port. See also \cite{bib:bluetooth-adapter}.
+The Bluefruit EZ-Link is a serial link bluetooth module. That means, the Arduino can communicate via UART with the bluetooth module, which handles the wireless transmission to the computer/smartphone. On the computer side, the module (if it was paired successfully) is recognized as an serial port. See also \cite{bib:bluetooth-adapter}.
 
 \newpage
 
@@ -119,21 +119,24 @@ The Bluefruit EZ-Link is a serial link bluetooth module. That means, the Arduino
 To create the heart rate monitor, several external libraries were used. This section lists all used external libraries and explains its usage.
 
 \subsection{FFTW}
-FFTW is a C library, which offers functions to calculate the discrete Fourier Transform (DFT). It supports the calculation with multiple dimensions, complex or real data and different input sizes. HRM uses FFTW to compute the complex DFT of the light sensors values and determine the heart rate.
+FFTW is a C library, which offers functions to calculate the discrete Fourier Transform (DFT). It supports the calculation with multiple dimensions, complex or real data and different input sizes. HRM uses FFTW to compute the complex DFT of the light sensors signal and determine the heart rate.
 
 \subsection{Qt}
-Qt is a cross-platform C++ library to create Graphical User Interfaces. Additionally, it supports own container classes, networking, database access and a lot of more. For the HRM, Qt is used to create the GUI.
+Qt is a cross-platform C++ library for creating Graphical User Interfaces (GUIs). Additionally, it supports own container classes, networking, database access and a lot of more. For the HRM, Qt is used to create the GUI.
 
 \subsection{Qwt}
-Qwt is a add-on for Qt which is able to create 2D and 3D plots. Its advantages are the large amount of features and the high performance. This makes it suitable for technical applications, which need to display a lot of data. Qwt is used to plot the light sensors data and its Fourier Transformed.
+Qwt is an add-on for Qt which is able to create 2D and 3D plots. Its advantages are the large amount of features and the high performance. This makes it suitable for technical applications, which need to display a lot of data. Qwt is used to plot the light sensors data and its Fourier Transformed.
 
 \subsection{QtSerialPort}
-QtSerialPort is used to access the serial port from the PC. It is a add-on module for Qt4 and Qt5. It allows fast and easy writing and reading to/from the serial ports. Because Qt is used for the Graphical User Interface (GUI), this is the optimal solution for serial port access.
+QtSerialPort is used to access the serial port from the PC. It is an add-on module for Qt4 and Qt5. It allows fast and easy writing and reading to/from the serial ports. Because Qt is used for the Graphical User Interface (GUI), this is the optimal solution for serial port access.
+
+\subsection{Light Intensity Sensor}
+To get data from the light sensor, the Adafruit TSL2561 and Adafruit Unified Sensor Driver libraries are used. These libraries do the I$^{2}$C communication and the digital to lux calculation. Also they provide functions to set the gain and integration time options \cite{bib:tsl-library} \cite{bib:sensor-library}.
 
 \newpage
 
 \section{Heart Rate Monitor Software}
-This section shows all implemented modules which are part of HRM. The implementation details are outlined in chapter \ref{chap:impl-details}. The software for the PC-part is implemented in C++. CMake is used as buildtool. The Arduino part is developed with the Arduino IDE. The application is cross-platform capable and supports Qt4 and Qt5. Compilation was tested on Linux and Windows.
+This section shows all implemented modules which are part of HRM. The implementation details are outlined in chapter \ref{chap:impl-details}. The software for the PC-part is implemented in C++. CMake is used as build-tool. The Arduino part is developed with the Arduino IDE. The application is cross-platform capable and supports Qt4 and Qt5. Compilation was tested on Linux and Windows.
 
 \subsection{Graphical User Interface}
 The GUI is mainly used for debugging and optimization. The GUIs features are shown in the following list:
@@ -142,24 +145,25 @@ The GUI is mainly used for debugging and optimization. The GUIs features are sho
 	\item{Displays the received data from the Arduino (via serial port)}
 	\item{Displays the light sensors settings}
 	\item{Allows setting of the light sensors sample rate}
-	\item{Displays several diagrams (sensor values, frequency spectrum, ...}
-	\item{Displays the Signal Processing parameter}
+	\item{Displays several diagrams (sensor values, frequency spectrum, ...)}
+	\item{Displays the signal processing parameter}
 \end{itemize}
 
 \subsection{Serial Interface}
-The class \lstinline{Serial} is used to control the access to the serial port. Qts slot and signal mechanism is used, to notify other classes, that data is received. The class supports sending and receiving data. 
+The class \lstinline{Serial} is used to control the access to the serial port. Qts slot and signal mechanism is used, to notify other classes when data is received. The class supports sending and receiving data. 
 
 \subsection{Signal Processing Module}
 This is the main part of HRM. It is responsible for detecting the heart rate. The class \lstinline{FFT} executes all signal processing steps explained in chapter \ref{sec:signal-processing}.
 
 \subsection{Arduino Module}
-The Arduino software controls the light sensor and sends its data via UART to the PC. It uses the extended Adafruit driver to allow manual timing (use own sample rates). Additionally to that, it is able to parse incoming serial data. The light sensors settings can be queried. Also a command to set the sample rate is available.
+The Arduino software controls the light sensor and sends its data via UART to the PC. It uses the extended Adafruit driver to allow manual timing (using own sample rates). Additionally to that, it is able to parse incoming serial data. The light sensors settings can be queried. Also a command to set the sample rate is available.
 
 \newpage
 
-\subsection{Light Intensity Sensor}
-To get data from the light sensor, the Adafruit TSL2561 and Adafruit Unified Sensor Driver library are used. These libraries do the I$^{2}$C communication and the digital to lux calculation. Also they provide functions to set the gain and integration time options \cite{bib:tsl-library} \cite{bib:sensor-library}.\\
+\subsection{Extended Light Intensity Sensor Driver}
+The TSL2561 driver was extended to allow manual timing. Manual timing is required to allow custom sample rates. The standard driver allows only pre-configured sample rates, although the TSL2561 controller does support manual timing. Because the signal processing requires configurable sample rates, the driver was extended to allow this feature.\\
 
+\subsection{Overview}
 Figure \ref{fig:software} summarizes the previously outlined software.
 
 \begin{figure}[H]
@@ -181,13 +185,13 @@ Figure \ref{fig:raw-data} shows the output signal from the light sensor. The dia
 	\label{fig:raw-data}
 \end{figure}
 
-To get now the exact heart rate, the time between two minima of the discrete sensor values need to be determined. However, it is not trivial to determine the minima, because of the noise in the signals data. The noise comes from different environment settings, the difference in blood volume change of each person and how the finger is placed onto the sensor. These parameter result in a change in the data's y-part.
+To get the exact heart rate, the time between two minima (or maxima) of the discrete sensor values need to be determined. However, it is not trivial to determine the minima, because of the noise in the signals data. The noise comes from different environment settings, the difference in blood volume change of each person and how the finger is placed onto the sensor. These parameter result in a change in the data's y-part.
 
 \subsection{First Approach}
-A first naive approach is, to determine the grade of each two sample points in the input data and than look, if the curve is declining or rising. With this knowledge, the minima could be identified. However, this approach is not optimal. It is impossible to separate different minima in the data and find the correct ones. Due to the noise local minima/optima could be detected which are not required. Introducing a static limit is unsuitable too, because in the difference of the y-axis data in each sample. To conclude, this approach is not suitable for the problem.
+A first naive approach is to determine the grade of each two sample points in the input data and than look if the curve is declining or rising. With this knowledge, the minima could be identified. However, this approach is not optimal. It is impossible to separate different minima in the data and find the correct ones. Due to the noise local minima could be detected which are not required. Introducing a static limit is unsuitable too, because in the difference of the y-axis data in each sample. To conclude, this approach is not suitable for the problem.
 
 \subsection{Second Approach}
-As one can see in figure \ref{fig:raw-data}, the heart rate is represented by a periodic up and down of the input values. These up and down values are distorted by some noise. Viewed from a signal processing view, these up and downs have the highest contribution of frequencies to the input signal. To get the heart rate, the frequency which contributes most to the input signal (= heart rate) has to be determined. This is a perfect application field for the Fourier Transformation. The Fourier Transformation is a mathematical method to analyse an input signal and determine the different frequencies which contribute how much to this signal. A Fourier Transformation converts an input signal in the time domain to an output signal in the frequency domain. The output signal shows, how much each frequency contributes to the input signal. The basic idea is, to transform the input signal via the Fourier Transformation and then determine the signal which contributes most. This means determining the peak of the output frequency signal. Picture \ref{fig:basic-operation} shows the basic operation principle.
+As one can see in figure \ref{fig:raw-data}, the heart rate is represented by a periodic up and down of the input values. These up and down values are distorted by some noise. The time difference between two minimas can also be expressed as the frequency of these periodic curve. Viewed from a signal processing view, these up and downs have the highest contribution of frequencies to the input signal. To get the heart rate, the frequency which contributes most to the input signal (= heart rate) has to be determined. This is a perfect application field for the Fourier Transform. The Fourier Transform is a mathematical method to analyse an input signal and determine the different frequencies which contribute how much to this signal. A Fourier Transform converts an input signal in the time domain to an output signal in the frequency domain (the frequency spectrum). The output signal shows, how much each frequency contributes to the input signal. The basic idea is, to transform the input signal via the Fourier Transform and then determine the signal which contributes most. This means determining the peak of the output frequency signal. Picture \ref{fig:basic-operation} shows the basic operation principle.
 
 \begin{figure}[H]
 	\centering
@@ -197,7 +201,7 @@ As one can see in figure \ref{fig:raw-data}, the heart rate is represented by a 
 \end{figure}
 
 \section{Data Flow}
-To implement HRM, at first a data flow design has to be created. Because the implementation of the signal processing is not trivial and the debugging capabilities on the Arduino are limited, the first prototype is created on a PC. The Arduino sends the luminosity values via UART to a PC. The PC collects the sensors values and executes the signal processing to identify the heart rate. Figure \ref{fig:data-flow2} shows the hardware setup used in the prototype. At the moment, HRM can detect the heart rate. It can be easily extended to allow oxygen saturation measurement.
+To implement HRM, at first a data flow design has to be created. Because the implementation of the signal processing is not trivial and the debugging capabilities on the Arduino are limited, the first prototype is created on a PC. The data flow between Arduino and light sensor via $I^2C$ can be separated in a control and application part. The control part contains the configuration of the sensor (setting configuration from Arduino to sensor). The application part contains the luminosity values (reading from sensor to Arduino). Like the $I^2C$ communication, the UART communication can be separated in control and application flow, too. For the application part, the Arduino sends the luminosity values to the PC. The control part consist of setting the sample rate of the sensors data or querying for the sensors settings from the PC. The PC collects the sensors values. When enough samples are collected, it executes the signal processing to identify the heart rate. Figure \ref{fig:data-flow2} shows the hardware set-up used in the prototype. At the moment, HRM can detect the heart rate. It can be easily extended to allow oxygen saturation measurement.
 
 \begin{figure}[H]
 	\centering
@@ -211,10 +215,10 @@ To implement HRM, at first a data flow design has to be created. Because the imp
 This section describes the signal processing of the light sensors input values and how to identify based on this data the heart rate. The basic functionality and usage of the signal processing steps are explained. However, due to its complexity and its large scope, the derivation of the mathematical principles are not covered here.
 
 \subsection{Fourier Transformation}
-There are a lot of different kinds of Fourier Transformation for different application fields. First, the correct kind has to be determined.
+There are a lot of different kinds of Fourier Transformations (FT) for different application fields. First, the correct kind has to be determined.
 
 \subsubsection{Synthesis or Analysis}
-Fourier Transformation can be used for analysis (forward DFT) and synthesis (inverse DFT). Because we want to get the frequency domain signal from the time domain signal, we use the forward transform (analysis).
+Fourier Transformation can be used for analysis (forward FT) and synthesis (inverse FT). Because we want to get the frequency domain signal from the time domain signal, we use the forward transform (analysis).
 
 \begin{figure}[H]
 	\centering
@@ -224,12 +228,13 @@ Fourier Transformation can be used for analysis (forward DFT) and synthesis (inv
 \end{figure}
 
 \subsubsection{Type of FT}
-There are several different types of the FT, depending on the input signal. The following table explains the types and wich FT to use.
+There are several different types of the FT, depending on the input signal. The following table explains the types and which FT to use.
 
 \begin{table}
+\centering
 \begin{tabular}{|l|l|}
 	\hline
-	Input signal & FT type \\ \hline
+	\textbf{Input signal} & \textbf{FT type} \\ \hline
 	Continues, aperiodic & Fourier Transform \\ \hline
 	Continues, periodic & Fourier Series \\ \hline
 	Discrete, aperiodic & Discrete Time Fourier Transform \\ \hline
@@ -241,7 +246,7 @@ There are several different types of the FT, depending on the input signal. The 
 Because the input signal is an array of discrete values and it is finite, the discrete FT (DFT) is required. The input data is thought of it would be periodic, so the DFT instead of the DTFT is used (The DTFT is only used in theoretical signal analysis and uses infinite input data).
 
 \subsubsection{Complex or Real}
-The formula for the DFT is shown in \ref{fig:dft-formula}. As shown, complex numbers are used. The input are complex discrete values $x[n]$. The output are complex discrete values $X[k]$. $N$ is the number of samples. The iterator $k$ represents the frequencies. Although there is a DFT with real values too, the complex DFT is used. The reason for that is that using this kind of transform is more common.
+The formula for the DFT is shown in \ref{fig:dft-formula}. As shown, complex numbers are used. The input are complex discrete values $x[n]$. The output are complex discrete values $X[k]$. $N$ is the number of samples. The iterator $k$ represents the frequencies. Although there is a DFT with real values too, the complex DFT is used. The reason for that is that using this kind of transform is simply more common.
 
 \begin{figure}[H]
 	\centering
@@ -250,7 +255,7 @@ The formula for the DFT is shown in \ref{fig:dft-formula}. As shown, complex num
 	\label{fig:dft-formula}
 \end{figure}
 
-An fast implementation of the FT is the FFT. The FFTW library is used to compute the FFT of the sensors data. Also the FT is the basic principle to get the heart rate, additional steps need to be made to get a nice frequency spectrum. The following chapters describe the different steps in detail. Figure \ref{fig:signal-processing-steps1} shows the applied functions.
+An fast implementation of the DFT is the FFT. The FFTW library is used to compute the FFT of the sensors data. Also the FT is the basic principle to get the heart rate, additional steps need to be made to get a nice frequency spectrum. The following chapters describe the different steps in detail. Figure \ref{fig:signal-processing-steps1} shows the applied functions.
 
 \begin{figure}[H]
 	\centering
@@ -260,14 +265,12 @@ An fast implementation of the FT is the FFT. The FFTW library is used to compute
 \end{figure}
 
 \subsection{Window Function}
-To reduce the leakage-effect, a window function has to be applied. The leakage effect appears in discrete FTs. It happens by using only finite (time limiting) data as input signal for the DFT. The leakage effect appears with continues and discrete FT.
+To reduce the leakage-effect, a window function has to be applied. The leakage effect appears in discrete FTs. It happens by using only finite (time limited) data as input signal for the DFT. The leakage effect appears with continues and discrete FT. The finite input signal can be viewed as a infinite signal multiplied with a rectangular function to limit it to the sampled interval. Multiplying in the time domain results in convolution in the frequency domain and therefore the output signal is smeared with the transformed rectangular function. In DFT, when applying the FT, it is assumed that the input signal is periodic by queueing multiple of these windows at it each other. However, because there are no consistent cuts at the start and end, the window sequences do not fit good to each other. To reduce this effect, a window function needs to be applied. This window function is multiplied with the input signal. It reduces the value at each side of the input data to zero, the windows fit perfectly to each other (when they are added to a sequence). With infinite input signal, this effect would not appear. However, infinite long input signals are in the physical world not possible. The only way to the leakage effect when using the DFT is to synchronize the sample rate with signals frequency. Here, the signals frequency has to be an integer multiple of the sample interval. This prevents inconsistent cuts between two sequences and allows a periodic continuance in the time domain. However, in most application fields this is not possible.\\
 
-The finite input signal can be viewed as a infinite signal multiplied with a rectangular function to limit it to the sampled interval. Multiplying in the time domain results in convolution in the frequency domain and therefore the output signal is smeared with the transformed rectangular function. In DFT, when applying the FT, it is assumed that the input signal is periodic by queueing multiple of these windows at it each other. However, because there are no consistent cuts at the start and end, the window sequence does not fit good. To reduce this effect, a window function needs to be applied. This window function is multiplied with the input signal. It reduces the value at each side of the input data to zero, the windows fit perfectly to each other (when they are added to a sequence). With infinite input signal, this effect would not appear. However, infinite long input signals are in the physical world not possible.
-
-There are different window functions to choose from. The parameters which characterize window functions are the main lobe, the sidelobs and the sidelob level. The used function is the Hamming-Window. An improvement is a slightly modified version of the hamming window. (TODO).
+There are different window functions to choose from. The parameters which characterize window functions are the main lobe, the sidelobs and the sidelob level. The used function is the Hamming-Window. 
 
 \subsection{FFT}
-Now the FFT can be applied, to transform the data into the frequency domain. This is done by the FFTW library. The input data is the discrete light data array with N values. Because the discrete complex FT (DFT) works with complex numbers, the complex part of each inout element is set to 0. The output of the FFT is also an array of N complex numbers.
+Now the FFT can be applied, to transform the data into the frequency domain. This is done by the FFTW library. The input data is the discrete light data array with N values. Because the discrete complex FT (DFT) works with complex numbers, the imaginary part of each input element is set to 0. The output of the FFT is also an array of N complex numbers.
 
 \begin{lstlisting}
 p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
@@ -287,19 +290,28 @@ When applying the steps mentioned above (Window Function, FFT), the output signa
 To do this, a bandpass filter which only allows the desired frequencies is used. The filter can be applied to the input signal (convoluting with e.g. butterworth bandpass filter) or to the output signal (multiplication - cutting the unwanted frequencies). When applying the filter before the FFT, it needs some time until it is stabilized. The stabilization time has to be cut off from the signal. Else, this would result in distorted output data. However, because the second option is much more faster and allows to use a perfect filter, this option is used. Using a perfect filter (rectangular function) is much more easier. It is not required to design the filter coefficients. Additionally, multiplying does not requires as much performance as convolution.
 
 \subsection{Converting/Scaling}
-The resulting frequency domain values need to be scaled, to represent the correct amplitude. This is made by the following formula (TODO). The output format is displayed in the following figure (TODO). The first element of the array represents the DC offset (y-axis shift) and is not needed. This is because this value changes based on the noise/environment light and is not required to determine the heart rate. The next $1 - N/2$ values represent the positive frequencies. The other values the negative frequencies. For this application, only the positive frequencies are used. So only the first half elements $1 - N/2$ need our attention. These values are complex values (sin and cos) in rectangular coordinate form and need to be converted in polar coordinates, to make it more human readable. Only the magnitude of this data is relevant, to calculate the heart rate.
+The resulting frequency domain values need to be scaled, to represent the correct amplitude. This is made by the following formula (TODO). The values are multiplied with $2$, because only the positive frequencies are used, but the complex DFT calculates positive and negative frequencies. The output format is displayed in the following figure \ref{fig:output-format}. The first element of the array represents the DC offset (y-axis shift) and is not required. This is because this value changes based on the noise/environment light and is not required to determine the heart rate. The next $[1, N/2]$ values represent the positive frequencies. The other values the negative frequencies. For this application, only the positive frequencies are used. So only the first half elements $[1, N/2]$ need our attention. These values are complex values (sin and cos) in rectangular coordinate form and need to be converted in polar coordinates, to make it more human readable. Only the magnitude of this data is relevant, to calculate the heart rate. The phase shift is not of interest.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{images/outputFormat.png}
+	\caption{Complex DFT output format}
+	\label{fig:output-format}
+\end{figure}
 
 \subsection{Peak Detection}
 The last step to do is to detect the peak. This is done by iterating through the magnitude values and find the value (x-value) with the highest amplitude. These x-values need to be converted into beats per minute (bpm), the standard heart rate unit.
 
 \subsection{Parameters}
-Additionally to applying the different signal processing steps, the correct paramters need to choosen. There are several requirements to the signal processing:
+Additionally to applying the different signal processing steps, the correct parameter need to be chosen. There are several requirements to the signal processing:
 \begin{itemize}
 	\item{Small number of samples used for FFT (else it will take long time until enough data is gathered)}
 	\item{High frequency resolution (0.1bpm)}
-	\item{Fast calulcation (for implementing on smartphone/uC/...)}
+	\item{Fast calculation (for implementing on smart-phone/uC/...)}
 	\item{Nice output data in frequency domain which allows easy peak detection}\\
 \end{itemize}
+
+\newpage
 
 All FFT parameter are saved in the structure \lstinline{FFT_properties}. The most important parameter are eyplained int the following sections.
 
@@ -322,7 +334,7 @@ struct FFT_properties {
 
 \subsubsection{Sample Rate}
 To detect frequencies up to 4Hz, a minimal sample rate of 8Hz (Shannon-Nyquist theorem) is required.
-This means a minimal sample interval of 125ms is required. The light sensor allows sample intervals up to 15ms.
+This means at least a sample interval of 125ms is required. The light sensor allows sample intervals up to 15ms.
 
 \subsubsection{Frequency Resolution}
 An optimal value for the number of samples are 128. It allows a good trade-off between frequency resolution and required sample time.
@@ -336,7 +348,7 @@ However, the frequency resolution is not good enough (3.75bpm). To further impro
 
 \subsubsection{Sliding Window}
 \label{subsubsec:sliding-window}
-To get fast new frequency spectra, the FFT is applied to the 128 samples every 5 samples. This is called segment duration/Sliding Window. It means, that every 5 samples, the FFT of the last 128 samples is calculated. The segment duration of 5 is trade off between fast results and required computation time. Else, the user has to wait 128 (= TODO, s) until he gets a new frequency spectrum and therefore a heart rate value. To implement this, a special buffer (\ref{sec:fft-buffer}) was created, which allows using different segment durations and fast data acquiring. Figure \ref{fig:sliding-window} shows the sliding window at three different times (t\_1, t\_2, t\_3).
+To get fast new frequency spectra, the FFT is applied to the 128 samples every 5 samples. This is called segment duration/Sliding Window. It means, that every 5 samples, the FFT of the last 128 samples is calculated. The segment duration of 5 is trade off between fast results and required computation time. Else, the user has to wait 128 samples (= 16s) until he gets a new frequency spectrum and therefore the heart rate value. To implement this, a special buffer (\ref{sec:fft-buffer}) was created, which allows using different segment durations and fast data acquiring. Figure \ref{fig:sliding-window} shows the sliding window at three different times (t\_1, t\_2, t\_3).
 
 \begin{figure}[H]
 	\centering
@@ -350,28 +362,28 @@ Figure \ref{fig:result} shows the final output signal.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=300px]{images/withEverything.png}
+	\includegraphics[width=350px]{images/withEverything.png}
 	\caption{Final Result}
 	\label{fig:result}
 \end{figure}
 
-The different peaks are the multiples of the fundamental frequency - the harmonic frequencies. The fundamental frequency is at $x = $, the harmonic frequencies are at $$, $$, ... . 
+The different peaks are the multiples of the fundamental frequency - the harmonic frequencies. The fundamental frequency is at $x = 1.1$ (1. harmonic), the 2. harmonic is at $2*x$, the 3. harmonic at $3*x$, ... . 
 
 \chapter{Critique and Improvements}
-Based on this work, a lot of projects can be done, to improve the heart rate monitor.
+The prototype is able to detect the heart rate with a very high precision (0.1 to 0.5bpm). Tests with commercially devices verified its functionality. Most commercial devices only have a resolution of 1bpm. Although HRM works very good, there can be still some improvements be made. Based on this prototype, a lot of projects can be done, to improve the heart rate monitor.
 
 \begin{itemize}
 	\item{Porting to a Arduino}
-	\subitem{FFT library is available}
-	\subitem{Performance tests need to be made}
-	\item{Using a smartphone for signal processing}
+	\subitem{- FFT library is available}
+	\subitem{- Performance tests need to be made}
+	\item{Using a smart-phone for signal processing}
 	\item{Porting to a smaller uC.}
 	\item{Adding a bluetooth module (trivial)}
-	\item{Add oygen saturation measurement}
-	\subitem{Easy to implement with the existing knowledge}
+	\item{Add oxygen saturation measurement}
+	\subitem{- Easy to implement with the existing knowledge}
 	\item{Create a wrist band}
 	\item{Brighter LED}
-	\item{Better light sensor (more sensitive)}
+	\item{Better light sensor (more sensitive - new version is available)}
 \end{itemize}
 
 Figure \ref{fig:data-flow1} shows a hardware setup with a bluetooth module, to allow wireless heart rate detection. As shown in the picture, the heart rate should be calculated on the Arduino. Only the calculated heart rate is sent via bluetooth to the user.
@@ -390,6 +402,13 @@ This chapter describes the most important implementation details. For further in
 \section{Software}
 \subsection{Graphical User Interface}
 The GUI is used for displaying the different parameter and data. Additionally it calls the signal processing module. In this chapter, the usage of the signal processing module from the GUI is covered.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{images/screen2.png}
+	\caption{GUI}
+	\label{fig:gui}
+\end{figure}
 
 \begin{lstlisting}[caption=MainWindow.cpp]
 if (fft.addSample(data.broadband))
@@ -413,8 +432,10 @@ displayPeak(indexMax, magnitude[indexMax]);
 // Display output data ...
 \end{lstlisting}
 
+In rows 1-3 the frequency spectrum's magnitude (polar coordinate) and real/imaginary values (rectangular coordinates - for debugging) are queried. After that, the current properties are saved in a \lstinline{FFT_properties} structure. The peak index of the frequency spectrum is computed with \lstinline{getPeak()}.
+
 \subsection{Serial Interface}
-The class $Serial.h$ receives UART data from the Arduino and saves it in the structures $SensorData$ and $SensorSettings$ for easier usage. It parses the incoming commands and converts it to data structures which are easier to interpret. The following signals are available for receiving plain string data, the light sensors luminosity values or its settings.
+The class \lstinline{Serial.h} receives UART data from the Arduino and saves it in the structures \lstinline{SensorData} and \lstinline{SensorSettings} for easier usage. It parses the incoming commands and converts it to data structures which are easier to interpret. The following signals are available for receiving plain string data, the light sensors luminosity values or its settings.
 
 \begin{lstlisting}
 signals:
@@ -445,7 +466,7 @@ struct SensorData {
 };
 \end{lstlisting}
 
-Sending data to the Arduino is done with the \lstinline{void sendData(QString string);} function.
+Sending data to the Arduino is done with the \lstinline{sendData(QString string)} function.
 
 \subsubsection{Serial Configuration}
 The following serial port configuration is used:
@@ -475,7 +496,7 @@ int windowSize;
 fftw_complex *add(double p_data);
 \end{lstlisting}
 
-This function adds the parameter \lstinline{p_data} as real value to the data vector. The imaginary part is set to zero. It returns \lstinline{nullptr} if the desired maximum capacity is not reached. If it returns non-zero, a pointer to the \lstinline{fftw_complex} array with valid data is returned. Internally, the data is first copied to a vector container. After \lstinline{effectiveSize} is reached, the data is copied to the \lstinline{fftw_complex} array. After copying, zero padding is applied. If the sliding window is enabled, only \lstinline{effectiveSize - windowSize} elements are preserved in the data vector. \lstinline{windowSize} new elements are needed until \lstinline{add()} returns the next array pointer. Figure \ref{fig:fft-buffer} shows the internal work flow.
+This function adds the parameter \lstinline{p_data} as real value to the data vector. The imaginary part is set to zero. It returns \lstinline{nullptr} if the desired maximum capacity is not reached. If it returns non-zero, a pointer to the \lstinline{fftw_complex} array with valid data is returned. Internally, the data is first copied to a vector container. After \lstinline{effectiveSize} is reached, the data is copied to the \lstinline{fftw_complex} array. After copying, zero padding is applied. If the sliding window is enabled, \lstinline{(effectiveSize - windowSize)} elements are preserved in the data vector. \lstinline{windowSize} new elements are required until \lstinline{add()} returns the next array pointer. Figure \ref{fig:fft-buffer} shows the internal work flow.
 
 \begin{figure}[H]
 	\centering
@@ -523,10 +544,14 @@ outImaginary[i-1] = scaledAmplImag;
 outMagnitude[i-1] = magnitude;
 \end{lstlisting}
 
-The array index of the peak value of the magnitude data to get the heart rate can be requested with the function \lstinline{int getPeak()}.
+The array index of the peak value of the magnitude data to get the heart rate can be requested with the function \lstinline{int getPeak()}. For calculating the FFT with the function \lstinline{fftw_execute(plan)} with the FFTW library, at first a plan has to be created. This is done in the \lstinline{FFT} class constructor. The most important parameter are the first three: Size of the buffer, input buffer and output buffer.
+
+\begin{lstlisting}[caption=FFT.c]
+plan = fftw_plan_dft_1d(buffer->totalSize(), buffer->get(), out, FFTW_FORWARD, FFTW_MEASURE | FFTW_PRESERVE_INPUT);
+\end{lstlisting}
 
 \subsection{Arduino Module}
-The Arduino module software is required to get the light sensors values and send them via UART to the PC. Because this is the main functionality, the software is very small and odes not require a lot of performance. The main loop is displayed in the following code snippet.
+The Arduino module software is required to get the light sensors values and send them via UART to the PC. Because this is its main functionality, the software is very small and does not require a lot of performance. The main loop is displayed in the following code snippet.
 
 \begin{lstlisting}
 void loop()
@@ -536,6 +561,8 @@ void loop()
   readData();
 }
 \end{lstlisting}
+
+\newpage
 
 The function \lstinline{readData()} reads incoming UART data and interprets it (for getting sensor settings or setting the sample interval/rate). The function \lstinline{luminosityManualTiming()} reads the sensor values with the extended manual timing driver functionality:
 
@@ -552,7 +579,11 @@ void luminosityManualTiming()
 }
 \end{lstlisting}
 
+The sample rate/interval is saved in the variable \lstinline{sampleInterval}, which can be set from the PC.
+
 \subsection{Light Intensity Sensor}
+This section describes the usage of the extended light sensor library.
+
 \begin{lstlisting}[caption=Adafruit driver]
 tsl.enableAutoRange(true);
 tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS);
@@ -569,6 +600,8 @@ void beginIntegrationCycle();
 void stopIntegrationCycle(uint16_t *broadband, uint16_t *ir);
 \end{lstlisting}
 
+\newpage
+
 \section{Wiring}
 \label{sec:wiring}
 TODO: Picture
@@ -580,6 +613,15 @@ TODO: Picture
 	\bibitem{bib:bluetooth-adapter} Bluefruit EZ-Link, \url{https://learn.adafruit.com/introducing-bluefruit-ez-link/overview}, 31.05.2014
 	\bibitem{bib:tsl-library} TSL 2561 Library, \url{https://github.com/adafruit/Adafruit_TSL2561}, 31.05.2014
 	\bibitem{bib:sensor-library} Adafruit Unified Sensor Driver library, \url{https://github.com/adafruit/Adafruit_Sensor}, 31.05.2014
+	\bibitem{bib:dpsguide} Steven W. Smith, Ph.D. ,\url{http://www.dspguide.com/}, 21.07.2014
+	\bibitem{bib:amidror} Isaac Amidror, Springer, Mastering the Discrete Fourier Transform in One, Two or Several Dimensions - Pitfalls and Artifacts, 21.07.2014
+	\bibitem{bib:neubauer} André Neubauer, Springer, DFT – Diskrete Fourier-Transformation, 21.07.2014
+	\bibitem{bib:mertins} Alfred Mertins, Springer, Signaltheorie, 21.07.2014
+	\bibitem{bib:thefourier} \url{http://www.thefouriertransform.com/series/fourier.php}
+	\bibitem{bib:thefourier} \url{https://ccrma.stanford.edu/~jos/mdft/}
+	\bibitem{bib:thefourier} \url{http://paulbourke.net/miscellaneous/dft/}
+	\bibitem{bib:thefourier} \url{http://www.ignaciomellado.es/blog/Measuring-heart-rate-with-a-smartphone-camera}
+	\bibitem{bib:thefourier} \url{http://www-users.cs.york.ac.uk/~fisher/mkfilter/trad.html}
 \end{thebibliography}
 
 \end{document}
