@@ -6,12 +6,12 @@
 \usepackage[bookmarksopen=true,
 			bookmarks=true,
 			plainpages=false,
-        	pdfpagelabels=true,
+			pdfpagelabels=true,
 			colorlinks=true,
 			linkcolor=black,
 			citecolor=black,
-        	filecolor=black,
-        	urlcolor=blue]{hyperref}
+    		    	filecolor=black,
+	        	urlcolor=blue]{hyperref}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{listings}
@@ -348,7 +348,7 @@ However, the frequency resolution is not good enough (3.75bpm). To further impro
 
 \subsubsection{Sliding Window}
 \label{subsubsec:sliding-window}
-To get fast new frequency spectra, the FFT is applied to the 128 samples every 5 samples. This is called segment duration/Sliding Window. It means, that every 5 samples, the FFT of the last 128 samples is calculated. The segment duration of 5 is trade off between fast results and required computation time. Else, the user has to wait 128 samples (= 16s) until he gets a new frequency spectrum and therefore the heart rate value. To implement this, a special buffer (\ref{sec:fft-buffer}) was created, which allows using different segment durations and fast data acquiring. Figure \ref{fig:sliding-window} shows the sliding window at three different times (t\_1, t\_2, t\_3).
+To get fast new frequency spectra, the FFT is applied to the 128 samples every 5 samples. This is called segment duration/Sliding Window. It means, that every 5 samples, the FFT of the last 128 samples is calculated. The segment duration of 5 is trade off between fast results and required computation time. Else, the user has to wait 128 samples (= 16s) until he gets a new frequency spectrum and therefore the heart rate value. To implement this, a special buffer (\ref{subsec:fft-buffer}) was created, which allows using different segment durations and fast data acquiring. Figure \ref{fig:sliding-window} shows the sliding window at three different times (t\_1, t\_2, t\_3).
 
 \begin{figure}[H]
 	\centering
@@ -618,10 +618,10 @@ TODO: Picture
 	\bibitem{bib:neubauer} André Neubauer, Springer, DFT – Diskrete Fourier-Transformation, 21.07.2014
 	\bibitem{bib:mertins} Alfred Mertins, Springer, Signaltheorie, 21.07.2014
 	\bibitem{bib:thefourier} \url{http://www.thefouriertransform.com/series/fourier.php}
-	\bibitem{bib:thefourier} \url{https://ccrma.stanford.edu/~jos/mdft/}
-	\bibitem{bib:thefourier} \url{http://paulbourke.net/miscellaneous/dft/}
-	\bibitem{bib:thefourier} \url{http://www.ignaciomellado.es/blog/Measuring-heart-rate-with-a-smartphone-camera}
-	\bibitem{bib:thefourier} \url{http://www-users.cs.york.ac.uk/~fisher/mkfilter/trad.html}
+	\bibitem{bib:stanford} \url{https://ccrma.stanford.edu/~jos/mdft/}
+	\bibitem{bib:bourke} \url{http://paulbourke.net/miscellaneous/dft/}
+	\bibitem{bib:blog} \url{http://www.ignaciomellado.es/blog/Measuring-heart-rate-with-a-smartphone-camera}
+	\bibitem{bib:filter} \url{http://www-users.cs.york.ac.uk/~fisher/mkfilter/trad.html}
 \end{thebibliography}
 
 \end{document}
