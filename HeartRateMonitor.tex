@@ -73,9 +73,22 @@ The aim of this project is to build a heart rate monitor (HRM) device. There are
 
 \chapter{Introduction}
 \section{State of the Art}
-It is impossible to find out how commercial heart rate measurement devices/Oximeters work. The internal functionality is not available and it is therefore difficult, to make any statements about their precision, performance and other aspects. Less information about heart rate devices and its implementation are available. Additionally, the available devices are very expensive. Most semi-professional devices need to be worn at the chest or as a finger-clip. Both types are uncomfortable and are not optimal for longer measurements. 
+It is difficult to find out how commercial heart rate measurement devices/oximeters work. The internal functionality is not available and it is therefore hard, to make any statements about their precision and performance. In general, less information about heart rate devices and its implementation are available. Additionally, the available devices are very expensive. Most semi-professional devices need to be worn at the chest or as a finger-clip. Both types are uncomfortable and are not optimal for longer measurements. Also it is not always possible, to adapt these device for other projects. If the heart rate data needs to processed further, an interface for getting the data is required. Most device offer no or only a hard accessible interface.
 
 \section{Motivation}
+The motivation for this project is, to build an own heart rate device from scratch. The used technology should be open source and well known. It is important, to only use the minimal required hardware/software. No full-blown raspberry pie/linux system should be used. All requirements to the project are summarized in the following list:
+
+\begin{itemize}
+	\item{Capable of detecting the heart rate with high precision}
+	\item{Low performance requirements}
+	\item{Less hardware requirements (no special hardware)}
+	\item{Cheap hardware}
+	\item{Use only open source software}
+	\item{Hardware setup should be flexible to use (finger, wrist band, ...)}
+	\item{Simplistic and understandable design}
+	\item{Easy to use in further projects}
+	\item{Easy expandable}
+\end{itemize}
 
 \chapter{Principle of Operation}
 \label{chap:principle-of-operation}
@@ -338,7 +351,7 @@ There are different window functions to choose from. The parameters which charac
 
 \subsection{Zero Padding}
 \label{subsec:zp}
-Before applying the FFT, additional zeros are added to the input signal. This is a trick to interpolate the resulting frequency spectrum and make the possibility higher, that a real maximum is at an output frequency index. With this interpolating technique, the frequency resolution can be increased. Without zero padding, the frequency spectrum would look like displayed in figure \ref{fig:without-zp}.
+Before applying the FFT, additional zeros are added to the input signal. This is a trick to interpolate the resulting frequency spectrum and make the possibility higher, that a real maximum is at an output frequency index. With this interpolating technique, the frequency resolution can be increased. Without zero padding, the frequency spectrum would look like displayed in figure \ref{fig:without-zp}. In this case, it is hard to determine the correct maxima as compared to figure \ref{fig:filter-window}, because they could be between to indices (due to the poor frequency resolution).
 
 \begin{figure}[H]
 	\centering
@@ -427,7 +440,7 @@ To get fast new frequency spectra, the FFT is applied to the 128 samples every 5
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=200px]{images/slidingWindow.png}
+	\includegraphics[width=250px]{images/slidingWindow.png}
 	\caption{Sliding Window}
 	\label{fig:sliding-window}
 \end{figure}
@@ -438,7 +451,7 @@ Figure \ref{fig:result} shows the final output signal.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=350px]{images/withEverything.png}
-	\caption{Final Result}
+	\caption{Final result}
 	\label{fig:result}
 \end{figure}
 
@@ -446,10 +459,10 @@ The different peaks are the multiples of the fundamental frequency - the harmoni
 
 \chapter{Conclusion}
 \section{Prototype and Results}
-The prototype is able to detect the heart rate with a very high precision (0.1 to 0.5bpm). Most commercial devices only have a resolution of 1bpm. Tests with commercial devices verified its functionality. Less hardware is required, to make a heart rate monitoring device. The Fourier Transform is an elegant way, to do the signal processing. It is quit robust against noise.
+The prototype is able to detect the heart rate with a very high precision (0.1bpm to 0.5bpm). Most commercial devices only have a resolution of 1bpm. Tests with commercial devices verified its functionality. Less and cheap hardware is required, to make a heart rate monitoring device. The Fourier Transform is an elegant way, to do the signal processing. It is quit robust against noise. Additionally, HRM is very flexible. The implementation is based on well known and easy to use technology. Also the hardware installation can be adapted to several use cases.
 
 \section{Improvements}
-Although HRM works very good, there can be still some improvements be made. Based on this prototype, more projects can be realised, to improve the heart rate monitor.
+Although HRM works very good, there can be still made some improvements. Based on this prototype, more projects can be realised, to improve the heart rate monitor:
 
 \begin{itemize}
 	\item{Porting to an Arduino}
@@ -462,7 +475,7 @@ Although HRM works very good, there can be still some improvements be made. Base
 	\subitem{- Easy to implement with the existing knowledge}
 	\item{Create a wrist band (with better environment light shielding)}
 	\item{Brighter LED}
-	\item{Better light sensor (more sensitive - new version is available)}
+	\item{Better light sensor (new version is available which is more sensitive)}
 	\item{Do additional tests with different mounting possiblities (reflection, hand wrist, ...)}
 \end{itemize}
 
