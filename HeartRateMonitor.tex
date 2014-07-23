@@ -71,6 +71,12 @@ The aim of this project is to build a heart rate monitor (HRM) device. There are
 
 \tableofcontents
 
+\chapter{Introduction}
+\section{State of the Art}
+It is impossible to find out how commercial heart rate measurement devices/Oximeters work. The internal functionality is not available and it is therefore difficult, to make any statements about their precision, performance and other aspects. Less information about heart rate devices and its implementation are available. Additionally, the available devices are very expensive. Most semi-professional devices need to be worn at the chest or as a finger-clip. Both types are uncomfortable and are not optimal for longer measurements. 
+
+\section{Motivation}
+
 \chapter{Principle of Operation}
 \label{chap:principle-of-operation}
 
@@ -438,8 +444,12 @@ Figure \ref{fig:result} shows the final output signal.
 
 The different peaks are the multiples of the fundamental frequency - the harmonic frequencies. The fundamental frequency is at $x = 1.1$ (1. harmonic), the 2. harmonic is at $2*x$, the 3. harmonic at $3*x$, ... . 
 
-\chapter{Critique and Improvements}
-The prototype is able to detect the heart rate with a very high precision (0.1 to 0.5bpm). Tests with commercial devices verified its functionality. Most commercial devices only have a resolution of 1bpm. Although HRM works very good, there can be still some improvements be made. Based on this prototype, more projects can be realised, to improve the heart rate monitor.
+\chapter{Conclusion}
+\section{Prototype and Results}
+The prototype is able to detect the heart rate with a very high precision (0.1 to 0.5bpm). Most commercial devices only have a resolution of 1bpm. Tests with commercial devices verified its functionality. Less hardware is required, to make a heart rate monitoring device. The Fourier Transform is an elegant way, to do the signal processing. It is quit robust against noise.
+
+\section{Improvements}
+Although HRM works very good, there can be still some improvements be made. Based on this prototype, more projects can be realised, to improve the heart rate monitor.
 
 \begin{itemize}
 	\item{Porting to an Arduino}
@@ -570,7 +580,7 @@ This function adds the parameter \lstinline{p_data} as real value to the data ve
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=300px]{images/FFTBuffer.png}
+	\includegraphics[width=350px]{images/FFTBuffer.png}
 	\caption{FFTBuffer}
 	\label{fig:fft-buffer}
 \end{figure}
@@ -652,7 +662,7 @@ void luminosityManualTiming()
 The sample rate/interval is saved in the variable \lstinline{sampleInterval}, which can be set from the PC.
 
 \subsection{Light Intensity Sensor}
-This section describes the usage of the extended light sensor library.
+This section describes the usage of the extended light sensor library. For using pre-defined integration times, the following code can be used:
 
 \begin{lstlisting}[caption=Adafruit driver]
 tsl.enableAutoRange(true);
