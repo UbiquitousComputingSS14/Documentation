@@ -9,4 +9,4 @@ The aim of this project is to build a heart rate monitor. There are already a lo
 
 New version adds better performance and simpler code. It is possible to change the FFT parameter during runtime. Additionally, the GUI was improved and made more user-friendly.
 
-![](images/screen5.png)
+![](images/screen5.PNG)
